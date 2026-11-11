@@ -1,0 +1,607 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Iuran Sampah Medina Residence</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+  /* Layout: kepala halaman, bilah akses, lalu dua kolom (tabel ceklis | kas dan catatan) yang menumpuk di layar sempit */
+  :root {
+    --bg: #f1f4f3;
+    --surface: #ffffff;
+    --fg: #1b2a26;
+    --muted: #596b65;
+    --line: #d7dfdc;
+    --row-alt: #f6f9f8;
+    --head-bg: #1f3b35;
+    --head-fg: #f2f7f5;
+    --accent: #0e8a73;
+    --accent-fg: #ffffff;
+    --danger: #b9382b;
+    --ok: #1d7a4c;
+    --ok-bg: #dcf0e5;
+    --info: #1f5f9e;
+    --info-bg: #dbe9f7;
+    --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+    --font-body: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #111917;
+      --surface: #19231f;
+      --fg: #e4eeea;
+      --muted: #9bafa8;
+      --line: #2b3a35;
+      --row-alt: #1d2a26;
+      --head-bg: #0c1513;
+      --head-fg: #e4eeea;
+      --accent: #3ecbad;
+      --accent-fg: #08201a;
+      --danger: #f0786a;
+      --ok: #66d296;
+      --ok-bg: #1b3a2b;
+      --info: #82b8ef;
+      --info-bg: #1c3149;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #111917;
+    --surface: #19231f;
+    --fg: #e4eeea;
+    --muted: #9bafa8;
+    --line: #2b3a35;
+    --row-alt: #1d2a26;
+    --head-bg: #0c1513;
+    --head-fg: #e4eeea;
+    --accent: #3ecbad;
+    --accent-fg: #08201a;
+    --danger: #f0786a;
+    --ok: #66d296;
+    --ok-bg: #1b3a2b;
+    --info: #82b8ef;
+    --info-bg: #1c3149;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  button, input, select { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .wrap {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  header.site {
+    background: var(--head-bg);
+    color: var(--head-fg);
+    padding-block: 22px;
+  }
+  header.site h1 {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 3.4vw, 28px);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  header.site .lokasi {
+    margin: 4px 0 0;
+    font-size: 15px;
+    opacity: 0.9;
+  }
+  header.site .info {
+    margin: 10px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: 13px;
+    opacity: 0.85;
+  }
+
+  main { padding-block: 20px 32px; }
+
+  .auth {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 16px;
+    margin-bottom: 18px;
+  }
+  .auth .left { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-width: 0; }
+  .badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .badge.warga { background: var(--ok-bg); color: var(--ok); }
+  .badge.admin { background: var(--info-bg); color: var(--info); }
+  .login-form { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .login-form input {
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--bg);
+    min-width: 0;
+    width: 220px;
+    max-width: 100%;
+  }
+  .msg-error { color: var(--danger); font-size: 13px; font-weight: 500; }
+
+  .btn {
+    padding: 8px 14px;
+    border: 0;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn:hover { filter: brightness(1.07); }
+  .btn-primary { background: var(--accent); color: var(--accent-fg); }
+  .btn-danger { background: var(--danger); color: #fff; }
+  .btn-small { padding: 3px 9px; font-size: 12px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+  }
+  @media (max-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px;
+    min-width: 0;
+  }
+  .stack { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .panel h2 {
+    font-family: var(--font-display);
+    font-size: 17px;
+    margin: 0 0 12px;
+    font-weight: 700;
+  }
+
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 10px;
+  }
+  .tab {
+    background: none;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    padding: 9px 16px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .tab[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .blok-summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 14px;
+    margin-bottom: 10px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .meter {
+    flex: 1 1 120px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--line);
+    overflow: hidden;
+    min-width: 80px;
+  }
+  .meter > span { display: block; height: 100%; background: var(--accent); width: 0; }
+
+  .table-wrap {
+    overflow: auto;
+    max-height: 520px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    white-space: nowrap;
+    text-align: center;
+  }
+  th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--head-bg);
+    color: var(--head-fg);
+    font-weight: 600;
+  }
+  th:first-child, td:first-child {
+    position: sticky;
+    left: 0;
+    text-align: left;
+    z-index: 1;
+    background: var(--surface);
+  }
+  th:first-child { z-index: 3; background: var(--head-bg); }
+  tbody tr:nth-child(even) td { background: var(--row-alt); }
+  td.lunas { font-variant-numeric: tabular-nums; color: var(--muted); }
+  td input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+    vertical-align: middle;
+  }
+  td input[type="checkbox"]:disabled { cursor: default; opacity: 0.85; }
+
+  .kas { display: flex; flex-direction: column; gap: 10px; }
+  .kas-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: var(--bg);
+    border-left: 4px solid var(--line);
+  }
+  .kas-row span:first-child { color: var(--muted); font-size: 13px; }
+  .kas-row strong { font-variant-numeric: tabular-nums; font-size: 16px; }
+  .kas-row.masuk { border-left-color: var(--ok); }
+  .kas-row.masuk strong { color: var(--ok); }
+  .kas-row.keluar { border-left-color: var(--danger); }
+  .kas-row.keluar strong { color: var(--danger); }
+  .kas-row.saldo { border-left-color: var(--info); }
+  .kas-row.saldo strong { color: var(--info); font-size: 22px; font-family: var(--font-display); }
+
+  fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+  fieldset:disabled { opacity: 0.55; }
+  .form-group { margin-bottom: 12px; }
+  .form-group label { display: block; margin-bottom: 4px; font-weight: 600; font-size: 13px; }
+  .form-group input, .form-group select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--bg);
+  }
+  .hint { color: var(--muted); font-size: 12px; margin: 0 0 10px; }
+
+  .log { list-style: none; margin: 0; padding: 0; max-height: 260px; overflow-y: auto; border: 1px solid var(--line); border-radius: 6px; }
+  .log li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+  }
+  .log li:last-child { border-bottom: 0; }
+  .log .ket { min-width: 0; overflow-wrap: anywhere; }
+  .log .nilai { display: flex; align-items: center; gap: 8px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .log .masuk { color: var(--ok); }
+  .log .keluar { color: var(--danger); }
+  .log .kosong { color: var(--muted); justify-content: center; }
+
+  .foot { margin-top: 16px; color: var(--muted); font-size: 12px; }
+</style>
+
+<header class="site">
+  <div class="wrap">
+    <h1>Sistem Informasi Iuran Sampah Warga</h1>
+    <p class="lokasi">Perumahan Medina Residence Bantargedang</p>
+    <p class="info">
+      <span>Bendahara: Bp Aziz Maryansyah</span>
+      <span>Iuran: Rp 20.000 / bulan</span>
+      <span>Periode: Nov 2026 – Okt 2027</span>
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="auth" aria-label="Akses">
+    <div class="left">
+      <span>Status akses:</span>
+      <span id="statusBadge" class="badge warga">Mode Warga (hanya lihat)</span>
+    </div>
+    <form id="loginArea" class="login-form" autocomplete="off">
+      <label for="passwordInput" hidden>Password admin</label>
+      <input type="password" id="passwordInput" placeholder="Masukkan password admin">
+      <button type="submit" class="btn btn-primary">Login Admin</button>
+      <span id="loginError" class="msg-error" role="alert" hidden>Password salah.</span>
+    </form>
+    <div id="logoutArea" hidden>
+      <button type="button" class="btn btn-danger" id="logoutBtn">Logout</button>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="panel" aria-label="Ceklis iuran">
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div class="blok-summary">
+        <span id="blokSummary"></span>
+        <div class="meter" aria-hidden="true"><span id="blokMeter"></span></div>
+      </div>
+      <div class="table-wrap">
+        <table id="iuranTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="stack">
+      <section class="panel" aria-label="Ringkasan kas">
+        <h2>Ringkasan Kas dan Saldo</h2>
+        <div class="kas">
+          <div class="kas-row masuk"><span>Total masuk</span><strong id="txtTotalMasuk">Rp 0</strong></div>
+          <div class="kas-row keluar"><span>Total keluar</span><strong id="txtTotalKeluar">Rp 0</strong></div>
+          <div class="kas-row saldo"><span>Saldo akhir</span><strong id="txtSaldoAkhir">Rp 0</strong></div>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="Input kas manual">
+        <h2>Input Manual Kas</h2>
+        <p class="hint" id="adminHint">Khusus admin. Login dulu untuk mengisi.</p>
+        <form id="txForm">
+          <fieldset id="adminFormCard" disabled>
+            <div class="form-group">
+              <label for="txJenis">Jenis transaksi</label>
+              <select id="txJenis">
+                <option value="masuk">Pemasukan tambahan</option>
+                <option value="keluar">Pengeluaran</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="txKeterangan">Uraian keterangan</label>
+              <input type="text" id="txKeterangan" placeholder="Contoh: Operasional truk / Sumbangan">
+            </div>
+            <div class="form-group">
+              <label for="txJumlah">Jumlah (Rupiah)</label>
+              <input type="number" id="txJumlah" min="1" inputmode="numeric" placeholder="Contoh: 150000">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%">Simpan Transaksi</button>
+            <p id="txError" class="msg-error" role="alert" hidden style="margin:8px 0 0">Isi uraian dan jumlah dengan benar.</p>
+          </fieldset>
+        </form>
+      </section>
+
+      <section class="panel" aria-label="Uraian kas manual">
+        <h2>Uraian Kas Manual</h2>
+        <ul class="log" id="logList"></ul>
+      </section>
+    </div>
+  </div>
+
+  <p class="foot">Data tersimpan di browser perangkat ini. Perangkat lain tidak melihat perubahan yang dibuat di sini.</p>
+</main>
+
+<script>
+  var BESAR_IURAN = 20000;
+  var BULAN_LIST = ["Nov 26","Des 26","Jan 27","Feb 27","Mar 27","Apr 27","Mei 27","Jun 27","Jul 27","Agu 27","Sep 27","Okt 27"];
+  var BLOK_LIST = ['A','B','C','D'];
+  var TOTAL_RUMAH = 40;
+  var PASSWORD_ADMIN = "adminsampah";
+  var KEY_P = 'medina_pembayaran';
+  var KEY_T = 'medina_transaksi';
+
+  var currentBlok = 'A';
+  var isAdmin = false;
+  var armedDelete = -1;
+
+  function loadJson(key, fallback) {
+    try {
+      var v = localStorage.getItem(key);
+      return v ? JSON.parse(v) : fallback;
+    } catch (e) { return fallback; }
+  }
+  function saveData() {
+    try {
+      localStorage.setItem(KEY_P, JSON.stringify(dataPembayaran));
+      localStorage.setItem(KEY_T, JSON.stringify(dataTransaksi));
+    } catch (e) { /* penyimpanan tidak tersedia, data tetap di halaman */ }
+  }
+
+  var dataPembayaran = loadJson(KEY_P, {});
+  var dataTransaksi = loadJson(KEY_T, []);
+  if (!Array.isArray(dataTransaksi)) dataTransaksi = [];
+  if (!dataPembayaran || typeof dataPembayaran !== 'object') dataPembayaran = {};
+
+  BLOK_LIST.forEach(function (blok) {
+    if (!dataPembayaran[blok]) dataPembayaran[blok] = {};
+    for (var i = 1; i <= TOTAL_RUMAH; i++) {
+      var arr = dataPembayaran[blok][i];
+      if (!Array.isArray(arr) || arr.length !== 12) dataPembayaran[blok][i] = Array(12).fill(false);
+    }
+  });
+
+  function $(id) { return document.getElementById(id); }
+  function formatRupiah(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  /* Login */
+  function setAdmin(on) {
+    isAdmin = on;
+    var badge = $('statusBadge');
+    badge.textContent = on ? 'Mode Admin (bisa mengubah data)' : 'Mode Warga (hanya lihat)';
+    badge.className = 'badge ' + (on ? 'admin' : 'warga');
+    $('loginArea').hidden = on;
+    $('logoutArea').hidden = !on;
+    $('adminFormCard').disabled = !on;
+    $('adminHint').hidden = on;
+    armedDelete = -1;
+    renderTabel();
+  }
+  $('loginArea').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = $('passwordInput');
+    if (input.value === PASSWORD_ADMIN) {
+      $('loginError').hidden = true;
+      input.value = '';
+      setAdmin(true);
+    } else {
+      $('loginError').hidden = false;
+    }
+  });
+  $('logoutBtn').addEventListener('click', function () { setAdmin(false); });
+
+  /* Tab blok */
+  function renderTabs() {
+    $('tabs').innerHTML = BLOK_LIST.map(function (b) {
+      return '<button type="button" class="tab" role="tab" data-blok="' + b + '" aria-selected="' + (b === currentBlok) + '">Blok ' + b + '</button>';
+    }).join('');
+  }
+  $('tabs').addEventListener('click', function (e) {
+    var btn = e.target.closest('.tab');
+    if (!btn) return;
+    currentBlok = btn.getAttribute('data-blok');
+    renderTabs();
+    renderTabel();
+  });
+
+  /* Tabel */
+  function renderTabel() {
+    var head = '<tr><th scope="col">Unit rumah</th>';
+    BULAN_LIST.forEach(function (b) { head += '<th scope="col">' + b + '</th>'; });
+    head += '<th scope="col">Lunas</th></tr>';
+    document.querySelector('#iuranTable thead').innerHTML = head;
+
+    var body = '';
+    var terbayarBlok = 0;
+    for (var i = 1; i <= TOTAL_RUMAH; i++) {
+      var row = dataPembayaran[currentBlok][i];
+      var n = row.filter(Boolean).length;
+      terbayarBlok += n;
+      body += '<tr><td><strong>Blok ' + currentBlok + i + '</strong></td>';
+      for (var b = 0; b < 12; b++) {
+        body += '<td><input type="checkbox" data-unit="' + i + '" data-bulan="' + b + '"' +
+          (row[b] ? ' checked' : '') + (isAdmin ? '' : ' disabled') +
+          ' aria-label="Blok ' + currentBlok + i + ' ' + BULAN_LIST[b] + '"></td>';
+      }
+      body += '<td class="lunas">' + n + '/12</td></tr>';
+    }
+    document.querySelector('#iuranTable tbody').innerHTML = body;
+
+    var total = TOTAL_RUMAH * 12;
+    $('blokSummary').textContent = 'Blok ' + currentBlok + ': ' + terbayarBlok + ' dari ' + total + ' iuran terbayar (' + formatRupiah(terbayarBlok * BESAR_IURAN) + ')';
+    $('blokMeter').style.width = (terbayarBlok / total * 100) + '%';
+    hitungKeuangan();
+  }
+  document.querySelector('#iuranTable tbody').addEventListener('change', function (e) {
+    var cb = e.target;
+    if (!isAdmin || cb.type !== 'checkbox') { return; }
+    var unit = parseInt(cb.getAttribute('data-unit'), 10);
+    var bulan = parseInt(cb.getAttribute('data-bulan'), 10);
+    dataPembayaran[currentBlok][unit][bulan] = cb.checked;
+    saveData();
+    renderTabel();
+  });
+
+  /* Keuangan */
+  function hitungKeuangan() {
+    var iuran = 0;
+    BLOK_LIST.forEach(function (blok) {
+      for (var i = 1; i <= TOTAL_RUMAH; i++) {
+        dataPembayaran[blok][i].forEach(function (v) { if (v === true) iuran += BESAR_IURAN; });
+      }
+    });
+    var masukTambahan = 0, keluar = 0;
+    dataTransaksi.forEach(function (tx) {
+      if (tx.jenis === 'masuk') masukTambahan += tx.jumlah;
+      if (tx.jenis === 'keluar') keluar += tx.jumlah;
+    });
+    var masuk = iuran + masukTambahan;
+    $('txtTotalMasuk').textContent = formatRupiah(masuk);
+    $('txtTotalKeluar').textContent = formatRupiah(keluar);
+    $('txtSaldoAkhir').textContent = formatRupiah(masuk - keluar);
+    renderLog();
+  }
+
+  /* Transaksi manual */
+  $('txForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!isAdmin) return;
+    var jenis = $('txJenis').value;
+    var ket = $('txKeterangan').value.trim();
+    var jumlah = parseInt($('txJumlah').value, 10);
+    if (!ket || isNaN(jumlah) || jumlah <= 0) {
+      $('txError').hidden = false;
+      return;
+    }
+    $('txError').hidden = true;
+    dataTransaksi.push({ jenis: jenis, keterangan: ket, jumlah: jumlah });
+    saveData();
+    $('txKeterangan').value = '';
+    $('txJumlah').value = '';
+    hitungKeuangan();
+  });
+
+  function renderLog() {
+    var list = $('logList');
+    if (dataTransaksi.length === 0) {
+      list.innerHTML = '<li class="kosong">Belum ada catatan manual</li>';
+      return;
+    }
+    list.innerHTML = dataTransaksi.map(function (tx, idx) {
+      var cls = tx.jenis === 'masuk' ? 'masuk' : 'keluar';
+      var tanda = tx.jenis === 'masuk' ? '+' : '−';
+      var hapus = '';
+      if (isAdmin) {
+        hapus = armedDelete === idx
+          ? '<button type="button" class="btn btn-danger btn-small" data-hapus="' + idx + '">Yakin hapus?</button>'
+          : '<button type="button" class="btn btn-small" style="background:var(--line)" data-hapus="' + idx + '">Hapus</button>';
+      }
+      return '<li><span class="ket ' + cls + '"><strong>' + tanda + '</strong> ' + esc(tx.keterangan) + '</span>' +
+        '<span class="nilai ' + cls + '"><strong>' + formatRupiah(tx.jumlah) + '</strong>' + hapus + '</span></li>';
+    }).join('');
+  }
+  $('logList').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-hapus]');
+    if (!btn || !isAdmin) return;
+    var idx = parseInt(btn.getAttribute('data-hapus'), 10);
+    if (armedDelete === idx) {
+      dataTransaksi.splice(idx, 1);
+      armedDelete = -1;
+      saveData();
+      hitungKeuangan();
+    } else {
+      armedDelete = idx;
+      renderLog();
+    }
+  });
+
+  renderTabs();
+  renderTabel();
+</script>
+
+</body></html>

@@ -1,0 +1,6 @@
+{
+  "name": "Sistem Iuran Sampah Medina Residence",
+  "description": "Aplikasi online pengelolaan dan transparansi kas iuran sampah warga Perumahan Medina Residence Bantargedang.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
